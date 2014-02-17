@@ -21,8 +21,8 @@ int main()
                     "SAN LORENZO","ALBERT","TESLA","JACK OUBREY","YO","TU","EL",
                     "NOSOTROS","VOSOTROS","ELLOS",
                     "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
-    abrirArchivo(archivoBinario,"agrupaciones.bin","wb");
-    if(archivoBinario==NULL)return 0;
+    archivoBinario=abrirArchivo(archivoBinario,"agrupaciones.bin","wb");
+    //if(archivoBinario==NULL)return 0;
     int i=0;
     int num=0;
     t_datoSimple reg;
@@ -31,9 +31,11 @@ int main()
         strcpy(reg.nombreAgrup,nombres[num]);
         reg.nAgrup=num;
         fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
+        printf("%s %d \n",reg.nombreAgrup,reg.nAgrup);
+        i++;
 
     }
-    printf("Hello world!\n");
+
     fclose(archivoBinario);
     return 0;
 }
