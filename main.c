@@ -90,16 +90,13 @@ int cargarPartidosEnLista(FILE* archivoPartidos,t_listaPartidos *pp){
     int cont=0;
     cadAux=fgets(linea,sizeof(linea),archivoPartidos);
     while(cadAux!=NULL){
-        //cadAux=linea;
         cadAux=strrchr(linea,'\n');
-        *cadAux='\0';
+        //*cadAux='\0';
         cadAux=strrchr(linea,'-');
         sscanf(cadAux+1,"%s",dat.nombre);
         *cadAux='\0';
         dat.numeroPartido=atoi(linea);
-        //aux=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
         cont ++;
-        //if(!aux) return cont;
         cargarNodoEnListaPartidos(pp,&dat);
         cadAux=fgets(linea,sizeof(linea),archivoPartidos);
 
