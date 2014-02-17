@@ -34,20 +34,22 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo);
 int  cargarPartidosEnLista(FILE* pf,t_listaPartidos *pp);
 int  cargarNodoEnListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
 void mostrarListapartidos(t_listaPartidos *pp);
+void vaciarListaPartidos(t_listaPartidos *pp);
 //////////////////////////////////////////////////////////////////////
 int main()
 {   t_listaPartidos listaPartidos;
     FILE *archivoPartidos=NULL;
     archivoPartidos=fopen("partidos.txt","rt");
-    if(!archivoPartidos) return 0;
+    if(!archivoPartidos) {printf("no se puede abrir el archivo...");return 0;}
     crearLista(&listaPartidos);
     FILE *archivoBinario=NULL;
     cargarPartidosEnLista(archivoPartidos,&listaPartidos);
     mostrarListapartidos(&listaPartidos);
 
-    char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
+    char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","HIMAN","POPEYE","JACKOUBREY","YO","TU","EL",
                      "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
-    generarVotaciones(archivoBinario,"agrupaciones.bin","wb");
+    //generarVotaciones(archivoBinario,"agrupaciones.bin","wb");
+    vaciarListaPartidos(&listaPartidos);
     fclose(archivoPartidos);
     return 0;
 }
@@ -68,12 +70,17 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
                 reg.nAgrup=nAgrup;
                  reg.distrito=nDistrito;
                   reg.region=nRegion;
-                    //printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
+
                         fwrite(&reg,sizeof(t_datoBinario),1,pf);
 
         i++;
 
     }
+      reg.nAgrup=9999; // a fines de testeo ingreso un registro con claves erroneas
+                 reg.distrito=8888;
+                  reg.region=7777;
+
+                        fwrite(&reg,sizeof(t_datoBinario),1,pf);
     printf("%d Registros Guardados.",i);
     fclose(pf);
 
@@ -127,7 +134,17 @@ void mostrarListapartidos(t_listaPartidos *pp){
         printf("Partido %s Numero: %d\n",(*pp)->reg.nombre,(*pp)->reg.numeroPartido);
         pp=&(*pp)->psig;
     }
+}
 
+void vaciarListaPartidos(t_listaPartidos *pp){
+    t_nodoListaPartidos *aux;
+    while (*pp){
+    aux=*pp;
+    pp=&(*pp)->psig;
+    free(aux);
+        }
+    *pp=NULL;
+    printf("lista vaciada exitosiamente...\n");
 
 }
 
