@@ -29,16 +29,15 @@ typedef struct aux2{
 
 }t_nodoListaPartidos;
 typedef t_nodoListaPartidos *t_listaPartidos;
-
-
+void crearLista(t_listaPartidos *pp);
 void generarVotaciones(FILE *pf,char* nombre, char*modo);
 int  cargarPartidos(FILE* pf,t_listaPartidos *pp);
 int  cargarListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
 //////////////////////////////////////////////////////////////////////
 int main()
-{   t_listaPartidos *listaPartidos;
+{   t_listaPartidos listaPartidos;
     FILE *archivoPartidos=NULL;
-    crearListaPartidos(&listaPartidos);
+    crearLista(&listaPartidos);
     cargarPartidos(archivoPartidos,&listaPartidos);
 
     FILE *archivoBinario=NULL;
@@ -117,7 +116,7 @@ return 1;
 
 }
 
-void crearListaPartidos(t_listaPartidos *pp){
+void crearLista(t_listaPartidos *pp){
     *pp=NULL;
 }
 
