@@ -38,15 +38,17 @@ void mostrarListapartidos(t_listaPartidos *pp);
 int main()
 {   t_listaPartidos listaPartidos;
     FILE *archivoPartidos=NULL;
+    archivoPartidos=fopen("partidos.txt","rt");
+    if(!archivoPartidos) return 0;
     crearLista(&listaPartidos);
+    FILE *archivoBinario=NULL;
     cargarPartidosEnLista(archivoPartidos,&listaPartidos);
     mostrarListapartidos(&listaPartidos);
 
-    FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
                      "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
     generarVotaciones(archivoBinario,"agrupaciones.bin","wb");
-
+    fclose(archivoPartidos);
     return 0;
 }
 
@@ -72,7 +74,7 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
         i++;
 
     }
-    printf("%d",i);
+    printf("%d Registros Guardados.",i);
     fclose(pf);
 
 
@@ -82,23 +84,24 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
 int cargarPartidosEnLista(FILE* archivoPartidos,t_listaPartidos *pp){
     t_nodoListaPartidos  *aux;
 
-    char cad[25];
+    char linea[20];
     char *cadAux;
     t_datoTexto dat;
     int cont=0;
-
-    while(fgets(cad,sizeof(cad),archivoPartidos)){
-        cadAux=cad;
-        cadAux=strrchr(cad,'\n');
+    cadAux=fgets(linea,sizeof(linea),archivoPartidos);
+    while(cadAux!=NULL){
+        //cadAux=linea;
+        cadAux=strrchr(linea,'\n');
         *cadAux='\0';
-        cadAux=strrchr(cad,'-');
+        cadAux=strrchr(linea,'-');
         sscanf(cadAux+1,"%s",dat.nombre);
         *cadAux='\0';
-        dat.numeroPartido=atoi(cad);
-        aux=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
+        dat.numeroPartido=atoi(linea);
+        //aux=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
         cont ++;
-        if(!aux) return cont;
+        //if(!aux) return cont;
         cargarNodoEnListaPartidos(pp,&dat);
+        cadAux=fgets(linea,sizeof(linea),archivoPartidos);
 
 
 
@@ -107,14 +110,14 @@ int cargarPartidosEnLista(FILE* archivoPartidos,t_listaPartidos *pp){
 
 }
 int cargarNodoEnListaPartidos(t_listaPartidos *pp, t_datoTexto *dat){
-t_nodoListaPartidos *aux=malloc(sizeof(t_nodoListaPartidos));
-if(!aux) return 0;
 while(*pp){
     pp=&(*pp)->psig;
 
 }
-aux->reg=*dat;
-(*pp)->psig=aux;
+*pp=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
+if(!*pp) return 0;
+(*pp)->reg=*dat;
+(*pp)->psig=NULL;
 return 1;
 
 }
