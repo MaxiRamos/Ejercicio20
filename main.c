@@ -15,12 +15,32 @@ typedef struct aux{
     t_datoBinario reg;
     struct aux *psig;
 
-}
+}t_nodoListaBinario;
+typedef t_nodoListaBinario *t_listaBinario;
+
+typedef struct{
+char nombre[15];
+int numeroPartido;
+}t_datoTexto;
+
+typedef struct aux2{
+    t_datoTexto reg;
+    struct aux2 *psig;
+
+}t_nodoListaPartidos;
+typedef t_nodoListaPartidos *t_listaPartidos;
+
 
 void generarVotaciones(FILE *pf,char* nombre, char*modo);
-
+int  cargarPartidos(FILE* pf,t_listaPartidos *pp);
+int  cargarListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
+//////////////////////////////////////////////////////////////////////
 int main()
-{
+{   t_listaPartidos *listaPartidos;
+    FILE *archivoPartidos=NULL;
+    crearListaPartidos(&listaPartidos);
+    cargarPartidos(archivoPartidos,&listaPartidos);
+
     FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
                      "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
@@ -57,10 +77,48 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
 
 }
 
-int leerPartidos(FILE *pf,char *nombre,char*modo,t_listaPartidos *pp){
+
+int cargarPartidos(FILE* archivoPartidos,t_listaPartidos *pp){
+    t_nodoListaPartidos  *aux;
+
+    char cad[25];
+    char *cadAux;
+    t_datoTexto dat;
+    int cont=0;
+
+    while(fgets(cad,sizeof(cad),archivoPartidos)){
+        cadAux=cad;
+        cadAux=strrchr(cad,'\n');
+        *cadAux='\0';
+        cadAux=strrchr(cad,'-');
+        sscanf(cadAux+1,"%s",dat.nombre);
+        *cadAux='\0';
+        dat.numeroPartido=atoi(cad);
+        aux=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
+        cont ++;
+        if(!aux) return cont;
+        cargarListaPartidos(pp,&dat);
 
 
+    }
+    return cont;
+
+}
+int cargarListaPartidos(t_listaPartidos *pp, t_datoTexto *dat){
+t_nodoListaPartidos *aux=malloc(sizeof(t_nodoListaPartidos));
+if(!aux) return 0;
+while(*pp){
+    pp=&(*pp)->psig;
+
+}
+aux->reg=*dat;
+(*pp)->psig=aux;
+return 1;
 
 }
 
-int
+void crearListaPartidos(t_listaPartidos *pp){
+    *pp=NULL;
+}
+
+
