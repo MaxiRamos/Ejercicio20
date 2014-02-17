@@ -18,7 +18,7 @@ int main()
 {   srand(time(NULL));
     FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER",
-                    "SAN LORENZO","ALBERT","TESLA","JACK OUBREY","YO","TU","EL",
+                    "SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
                     "NOSOTROS","VOSOTROS","ELLOS",
                     "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
     archivoBinario=abrirArchivo(archivoBinario,"agrupaciones.bin","wb");
@@ -27,11 +27,13 @@ int main()
     int num=0;
     t_datoSimple reg;
     while(i<=MAX){
-        num=rand()%24;
+        num=(rand()%23);
         strcpy(reg.nombreAgrup,nombres[num]);
+        //fflush(stdin);
         reg.nAgrup=num;
+         printf("%s %d \n",reg.nombreAgrup,reg.nAgrup);
         fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
-        printf("%s %d \n",reg.nombreAgrup,reg.nAgrup);
+
         i++;
 
     }
