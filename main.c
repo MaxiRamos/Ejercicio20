@@ -8,13 +8,13 @@ typedef struct{
 int nAgrup;
 char*nombreAgrup;
 }t_datoSimple;
+ void grabarEnArchivo(FILE*pf,t_datoSimple *reg);
 
-void grabarEnArchivo(FILE*pf,t_datoSimple *reg);
-void abrirArchivo(FILE *pf,char* nombre, char*modo);
+FILE* abrirArchivo(FILE *pf,char* nombre, char*modo);
 
 int main()
 {   srand(time(NULL));
-    FILE *archivoBinario;
+    FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER",
                     "SAN LORENZO","ALBERT","TESLA","JACK OUBREY","YO","TU","EL",
                     "NOSOTROS","VOSOTROS","ELLOS",
@@ -34,4 +34,12 @@ int main()
     }
     printf("Hello world!\n");
     return 0;
+}
+
+FILE* abrirArchivo(FILE *pf,char* nombre, char*modo){
+
+    pf=fopen(nombre,modo);
+    if(!pf) return NULL;
+    return pf;
+
 }
