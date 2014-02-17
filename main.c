@@ -8,7 +8,7 @@
 #define RANDMIN 0
 typedef struct{
 int nAgrup;
-char*nombreAgrup;
+char nombreAgrup[25];
 }t_datoSimple;
  void grabarEnArchivo(FILE*pf,t_datoSimple *reg);
 
