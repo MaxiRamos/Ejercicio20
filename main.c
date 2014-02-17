@@ -9,24 +9,24 @@
 typedef struct{
 int nAgrup;int distrito;int region;
 }t_datoSimple;
- void grabarEnArchivo(FILE*pf,t_datoSimple *reg);
 
-FILE* abrirArchivo(FILE *pf,char* nombre, char*modo);
+void generarVotaciones(FILE *pf,char* nombre, char*modo);
 
 int main()
-{   srand(time(NULL));
+{
     FILE *archivoBinario=NULL;
-    char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER",
-                    "SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
-                    "NOSOTROS","VOSOTROS","ELLOS",
-                    "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
-//        char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER",
-//                    "SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
-//                    "NOSOTROS","VOSOTROS","ELLOS",
-//                    "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
-    archivoBinario=abrirArchivo(archivoBinario,"agrupaciones.bin","wb");
-    //if(archivoBinario==NULL)return 0;
-    int i=0;
+    char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
+                    "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
+    generarVotaciones(archivoBinario,"agrupaciones.bin","wb");
+
+    return 0;
+}
+
+void generarVotaciones(FILE *pf,char* nombre, char*modo){
+    srand(time(NULL));
+    pf=fopen(nombre,modo);
+    if(!pf) return ;
+        int i=0;
     int nRegion=0;
     int nDistrito=0;
     int nAgrup=0;
@@ -41,21 +41,13 @@ int main()
          reg.distrito=nDistrito;
           reg.region=nRegion;
             printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
-                fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
+                fwrite(&reg,sizeof(t_datoSimple),1,pf);
 
         i++;
 
     }
+    printf("%d",i);
+    fclose(pf);
 
-printf("%d",i);
-    fclose(archivoBinario);
-    return 0;
-}
-
-FILE* abrirArchivo(FILE *pf,char* nombre, char*modo){
-
-    pf=fopen(nombre,modo);
-    if(!pf) return NULL;
-    return pf;
 
 }
