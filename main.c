@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define MAX 2500
+#define MAX 10000 //usado para calcular la cantidad de votos
 #define MIN 10
-#define RANDMAX 2500
+#define RANDMAX 5000
 #define RANDMIN 0
 typedef struct{
-int nAgrup;
-char nombreAgrup[25];
+int nAgrup;int distrito;int region;
 }t_datoSimple;
  void grabarEnArchivo(FILE*pf,t_datoSimple *reg);
 
@@ -21,23 +20,34 @@ int main()
                     "SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
                     "NOSOTROS","VOSOTROS","ELLOS",
                     "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
+//        char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER",
+//                    "SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
+//                    "NOSOTROS","VOSOTROS","ELLOS",
+//                    "USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
     archivoBinario=abrirArchivo(archivoBinario,"agrupaciones.bin","wb");
     //if(archivoBinario==NULL)return 0;
     int i=0;
-    int num=0;
+    int nRegion=0;
+    int nDistrito=0;
+    int nAgrup=0;
     t_datoSimple reg;
-    while(i<=MAX){
-        num=(rand()%23);
-        strcpy(reg.nombreAgrup,nombres[num]);
+    while(i<MAX){
+        nAgrup=(rand()%24);
+         nRegion=(rand()%3)+1;
+          nDistrito=(rand()%22)+1;
+        //strcpy(reg.nombreAgrup,nombres[num]);
         //fflush(stdin);
-        reg.nAgrup=num;
-         printf("%s %d \n",reg.nombreAgrup,reg.nAgrup);
-        fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
+        reg.nAgrup=nAgrup;
+         reg.distrito=nDistrito;
+          reg.region=nRegion;
+            printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
+                fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
 
         i++;
 
     }
 
+printf("%d",i);
     fclose(archivoBinario);
     return 0;
 }
