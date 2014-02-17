@@ -4,11 +4,18 @@
 #include <time.h>
 #define MAX 10000 //usado para calcular la cantidad de votos
 #define MIN 10
-#define RANDMAX 5000
-#define RANDMIN 0
+
 typedef struct{
-int nAgrup;int distrito;int region;
-}t_datoSimple;
+int nAgrup;
+int distrito;
+int region;
+}t_datoBinario;
+
+typedef struct aux{
+    t_datoBinario reg;
+    struct aux *psig;
+
+}
 
 void generarVotaciones(FILE *pf,char* nombre, char*modo);
 
@@ -16,7 +23,7 @@ int main()
 {
     FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
-                    "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
+                     "NOSOTROS","VOSOTROS","ELLOS","USTED","MIO","TUYO","FACTURAS","CON","CREMA"}; //el numero de agrupacion va del 0 al 24
     generarVotaciones(archivoBinario,"agrupaciones.bin","wb");
 
     return 0;
@@ -30,18 +37,16 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
     int nRegion=0;
     int nDistrito=0;
     int nAgrup=0;
-    t_datoSimple reg;
+    t_datoBinario reg;
     while(i<MAX){
         nAgrup=(rand()%24);
          nRegion=(rand()%3)+1;
           nDistrito=(rand()%22)+1;
-        //strcpy(reg.nombreAgrup,nombres[num]);
-        //fflush(stdin);
-        reg.nAgrup=nAgrup;
-         reg.distrito=nDistrito;
-          reg.region=nRegion;
-            printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
-                fwrite(&reg,sizeof(t_datoSimple),1,pf);
+                reg.nAgrup=nAgrup;
+                 reg.distrito=nDistrito;
+                  reg.region=nRegion;
+                    printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
+                        fwrite(&reg,sizeof(t_datoBinario),1,pf);
 
         i++;
 
@@ -51,3 +56,11 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
 
 
 }
+
+int leerPartidos(FILE *pf,char *nombre,char*modo,t_listaPartidos *pp){
+
+
+
+}
+
+int
