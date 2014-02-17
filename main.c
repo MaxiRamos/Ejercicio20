@@ -31,14 +31,14 @@ typedef struct aux2{
 typedef t_nodoListaPartidos *t_listaPartidos;
 void crearLista(t_listaPartidos *pp);
 void generarVotaciones(FILE *pf,char* nombre, char*modo);
-int  cargarPartidos(FILE* pf,t_listaPartidos *pp);
-int  cargarListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
+int  cargarPartidosEnLista(FILE* pf,t_listaPartidos *pp);
+int  cargarNodoEnListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
 //////////////////////////////////////////////////////////////////////
 int main()
 {   t_listaPartidos listaPartidos;
     FILE *archivoPartidos=NULL;
     crearLista(&listaPartidos);
-    cargarPartidos(archivoPartidos,&listaPartidos);
+    cargarPartidosEnLista(archivoPartidos,&listaPartidos);
 
     FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
@@ -77,7 +77,7 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
 }
 
 
-int cargarPartidos(FILE* archivoPartidos,t_listaPartidos *pp){
+int cargarPartidosEnLista(FILE* archivoPartidos,t_listaPartidos *pp){
     t_nodoListaPartidos  *aux;
 
     char cad[25];
@@ -96,14 +96,14 @@ int cargarPartidos(FILE* archivoPartidos,t_listaPartidos *pp){
         aux=(t_nodoListaPartidos*)malloc(sizeof(t_nodoListaPartidos));
         cont ++;
         if(!aux) return cont;
-        cargarListaPartidos(pp,&dat);
+        cargarNodoEnListaPartidos(pp,&dat);
 
 
     }
     return cont;
 
 }
-int cargarListaPartidos(t_listaPartidos *pp, t_datoTexto *dat){
+int cargarNodoEnListaPartidos(t_listaPartidos *pp, t_datoTexto *dat){
 t_nodoListaPartidos *aux=malloc(sizeof(t_nodoListaPartidos));
 if(!aux) return 0;
 while(*pp){
