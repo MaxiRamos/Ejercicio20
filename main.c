@@ -33,12 +33,14 @@ void crearLista(t_listaPartidos *pp);
 void generarVotaciones(FILE *pf,char* nombre, char*modo);
 int  cargarPartidosEnLista(FILE* pf,t_listaPartidos *pp);
 int  cargarNodoEnListaPartidos(t_listaPartidos *lista,t_datoTexto *pp);
+void mostrarListapartidos(t_listaPartidos *pp);
 //////////////////////////////////////////////////////////////////////
 int main()
 {   t_listaPartidos listaPartidos;
     FILE *archivoPartidos=NULL;
     crearLista(&listaPartidos);
     cargarPartidosEnLista(archivoPartidos,&listaPartidos);
+    mostrarListapartidos(&listaPartidos);
 
     FILE *archivoBinario=NULL;
     char *nombres[]={"AB","BE","CE","DE","PEPE","PEPITO","PEPAZO","BOCA","RIVER","SAN LORENZO","ALBERT","TESLA","JACKOUBREY","YO","TU","EL",
@@ -64,7 +66,7 @@ void generarVotaciones(FILE *pf,char* nombre, char*modo){
                 reg.nAgrup=nAgrup;
                  reg.distrito=nDistrito;
                   reg.region=nRegion;
-                    printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
+                    //printf("Agrupacion:%d Distrito:%d Region:%d\n",reg.nAgrup,reg.distrito,reg.region);
                         fwrite(&reg,sizeof(t_datoBinario),1,pf);
 
         i++;
@@ -99,6 +101,7 @@ int cargarPartidosEnLista(FILE* archivoPartidos,t_listaPartidos *pp){
         cargarNodoEnListaPartidos(pp,&dat);
 
 
+
     }
     return cont;
 
@@ -118,6 +121,14 @@ return 1;
 
 void crearLista(t_listaPartidos *pp){
     *pp=NULL;
+}
+void mostrarListapartidos(t_listaPartidos *pp){
+    while(*pp){
+        printf("Partido %s Numero: %d\n",(*pp)->reg.nombre,(*pp)->reg.numeroPartido);
+        pp=&(*pp)->psig;
+    }
+
+
 }
 
 
