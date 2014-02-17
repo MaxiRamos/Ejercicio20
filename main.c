@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #define MAX 2500
 #define MIN 10
 #define RANDMAX 2500
@@ -26,13 +28,13 @@ int main()
     t_datoSimple reg;
     while(i<=MAX){
         num=rand()%24;
-
-        reg.nombreAgrup=nombres[num];
+        strcpy(reg.nombreAgrup,nombres[num]);
         reg.nAgrup=num;
         fwrite(&reg,sizeof(t_datoSimple),1,archivoBinario);
 
     }
     printf("Hello world!\n");
+    fclose(archivoBinario);
     return 0;
 }
 
